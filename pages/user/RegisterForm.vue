@@ -92,7 +92,22 @@ export default {
   },
   methods: {
     // 发送验证码
-    handleSendCaptcha() {},
+        async handleSendCaptcha(){
+            if(!this.form.username){
+                this.$message.error("手机号码不能为空");
+                return;
+            }
+            const res = await this.$axios({
+                url: "/captchas",
+                method: "POST",
+                data: {
+                    tel: this.form.username // 手机号码
+                }
+            });
+            const {code} = res.data;
+            // 打印出手机的验证码
+            this.$message.success(`当前的手机验证码是：${code}`);
+        },
 
     // 注册
     handleRegSubmit() {
