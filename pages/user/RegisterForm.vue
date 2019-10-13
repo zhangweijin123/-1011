@@ -96,7 +96,29 @@ export default {
 
     // 注册
     handleRegSubmit() {
-      console.log(this.form);
+      this.$refs.form.validate(async valid => {
+              if(valid){
+                //不需要确认密码一项
+                const {checkPassword,...props} = this.form
+                  // 请求注册的接口
+                  const res = await this.$axios({
+                    url:"/accounts/register",
+                    method:"POST",
+                    data:props
+                  }).then(res=>{
+                    if(status===200){
+                      this.$message.success("注册成功")
+                    }
+                    // 跳转到首页
+                    this.$router.push("/")
+                    const data = res.data
+
+                    //把用户信息token保存到本地在头部组件中显示用户数据
+
+                    this.$store.commit("user/setUserInfo",data)
+                  })
+              }
+          })
     }
   }
 };
