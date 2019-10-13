@@ -22,7 +22,7 @@
                 <LoginForm v-if="currentTab == 0"/>
 
                 <!-- 注册功能组件 -->
-                <!-- <RegisterForm v-if="currentTab == 1"/> -->
+                <RegisterForm v-if="currentTab == 1"/>
             </div>
         </el-row>
     </div>
@@ -30,6 +30,7 @@
 
 <script>
 import LoginForm from "@/pages/user/loginForm"
+import RegisterForm from "@/pages/user/registerForm"
 
 export default {
     data(){
@@ -39,6 +40,7 @@ export default {
     },
     components:{
         LoginForm,
+        RegisterForm
     },
     methods: {
         handleChangeTab(index){
