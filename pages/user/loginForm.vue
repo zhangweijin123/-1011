@@ -17,60 +17,45 @@
 </template>
 
 <script>
+import { async } from "q";
 export default {
-    data(){
-        return{
-            form:{
-                username:"",
-                password:""
-            },
+  data() {
+    return {
+      form: {
+        username: "",
+        password: ""
+      },
 
-            // 校验规则
-            rules: {
-                username: [
-                    { required: true, message: '请输入用户名', trigger: 'blur' },
-                ],
-                password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' }
-                ],
-            }
+      // 校验规则
+      rules: {
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" }
+        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+      }
+    };
+  },
+
+  methods: {
+    handleLoginSubmit() {
+      //请求登录接口
+
+      //验证表单是否为空
+      this.$refs.form.validate(async valid => {
+        // 为true表示没有错误
+        if (valid) {
+          //this.$store.dispatch用于调用 actions 的 方法
+          const res = await this.$store.dispatch("user/login", this.form);
+
+          if (res.status === 200) {
+            this.$message.success("登陆成功");
+            this.$router.push("/");
+          }
         }
-    },
-
-    methods:{
-        handleLoginSubmit(){
-            //请求登录接口
-
-            //验证表单是否为空
-            this.$refs['form'].validate((valid)=>{
-                // 为true表示没有错误
-                if(valid){
-                    this.$axios({
-                url:"/accounts/login",
-                method:"POST",
-                data:this.form
-            }).then(res=>{
-                
-                if(res.status===200){
-                    this.$message.success("登陆成功")
-                    this.$router.push("/")
-
-
-                    const data = res.data;
-                       // 把用户信息token保存到本地，在头部组件中显示用户数据
-                       
-                       // vuex不能通过直接赋值方式来修改state的值
-                       // this.$store.state.user.username = data.user.nickname;
-                       // 通过调用mutation下的方法掉修改state的值,commit方法调用mutation的方法
-                       // 非常类似于$emit
-                       this.$store.commit("user/setUserInfo", data);
-                }  
-            })
-                }
-            }
-        )}
+      });
     }
-}
+  }
+};
 </script>
 
 <style scoped lang="less">
