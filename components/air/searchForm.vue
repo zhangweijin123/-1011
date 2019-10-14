@@ -111,26 +111,32 @@ export default {
             this.queryDepartSearch(value, cb)
         },
        
-        // 出发城市下拉选择时触发
+        // 出发城市下拉选择时触发把数据储存
         handleDepartSelect(item) {
             this.form.departCity = item.value
             this.form.departCode = item.sort
         },
 
-        // 目标城市下拉选择时触发
+        // 目标城市下拉选择时触发把数据储存
         handleDestSelect(item) {
+            console.log(item)
             this.form.destCity = item.value
             this.form.destCode = item.sort
         },
 
         // 确认选择日期时触发
         handleDate(value){
-           
+           this.form.departDate = moment(value).format("YYYY-MM-DD")
         },
 
         // 触发和目标城市切换时触发
         handleReverse(){
-            
+            const {departCity,departCode,destCity,destCode} = this.form
+
+            this.form.departCity = destCity;
+            this.form.departCode = destCode;
+            this.form.destCity = departCity;
+            this.form.destCode = departCode
         },
 
         // 提交表单时触发
