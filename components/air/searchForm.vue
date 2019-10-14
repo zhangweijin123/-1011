@@ -20,6 +20,7 @@
                 @select="handleDepartSelect"
                 class="el-autocomplete"
                 v-model="form.departCity"
+                @blur="handleDepartBlur"
                 ></el-autocomplete>
             </el-form-item>
             <el-form-item label="到达城市">
@@ -29,6 +30,7 @@
                 @select="handleDestSelect"
                 class="el-autocomplete"
                 v-model="form.destCity"
+                @blur="handleDestBlur"
                 ></el-autocomplete>
             </el-form-item>
             <el-form-item label="出发时间">
@@ -73,7 +75,8 @@ export default {
                 destCode:"",
                 departDate:"",
             },
-            
+            //存放newData的城市数组
+            cities:[]
         }
     },
     methods: {
@@ -101,6 +104,8 @@ export default {
                     v.value = v.name.replace("市" , "")
                     return v;
                 })
+                //把newData的值赋值给cities
+                this.cities = newData;
                 cb(newData);
             })
         },
@@ -109,6 +114,20 @@ export default {
         // value 是选中的值，cb是回调函数，接收要展示的列表
         queryDestSearch(value, cb){
             this.queryDepartSearch(value, cb)
+        },
+
+        //失去焦点的时候默认选中第一个
+        handleDepartBlur(){
+            if(this.cities.length > 0){
+            this.form.departCity = this.cities[0].value
+            this.form.departCode = this.cities[0].sort
+            }
+        },
+        handleDestBlur(){
+            if(this.cities.length > 0){
+                this.form.destCity = this.cities[0].value
+            this.form.destCode = this.cities[0].sort
+            }
         },
        
         // 出发城市下拉选择时触发把数据储存
@@ -141,7 +160,7 @@ export default {
 
         // 提交表单时触发
         handleSubmit(){
-        
+            console.log(this.form)
         }
     },
     mounted() {
