@@ -68,7 +68,10 @@ export default {
     methods: {
         // 分页条数切换时候触发, val是当前的条数
         handleSizeChange(val){
-            
+             // 切换条数
+            this.pageSize = val;
+            // 重新回到第一页
+            this.dataList = this.flightsData.flights.slice(0, this.pageSize)
         },
         // 页数切换时候触发, val是当前的页数
         handleCurrentChange(val){
@@ -89,9 +92,6 @@ export default {
             params:this.$route.query
         }).then(res=>{
             this.flightsData = res.data;
-
-            // 第一页的数据
-            this.dataList = this.flightsData.flights.slice(0, this.pageSize)
         })
     }
 }
