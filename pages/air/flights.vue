@@ -15,7 +15,11 @@
                 
                 <!-- 航班信息 -->
                 <div>
-                    
+                    <FlightsItem
+                    v-for="(item,index) in dataList"
+                    :key="index"
+                    :data="item"
+                    />
                 </div>
             </div>
 
@@ -31,15 +35,17 @@
 
 import moment from "moment";
 import FlightsListHead from "@/components/air/flightsListHead.vue"
+import FlightsItem from "@/components/air/flightsItem.vue"
 
 export default {
     data(){
         return {
-            
+            dataList:[]
         }
     },
     components:{
-        FlightsListHead
+        FlightsListHead,
+        FlightsItem
     }
 }
 </script>
