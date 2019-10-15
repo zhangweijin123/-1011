@@ -14,9 +14,9 @@
                 
                 
                 <!-- 航班信息 -->
-                    <!-- fligthsData.flights是航班的列表 -->
+                    <!-- flightsData.flights是航班的列表 -->
                     <FlightsItem 
-                    v-for="(item,index) in fligthsData.flights"
+                    v-for="(item,index) in dataList"
                     :key="index"
                     :item="item"
                     />
@@ -50,8 +50,11 @@ import FlightsItem from "@/components/air/flightsItem.vue"
 export default {
     data(){
         return {
-            fligthsData:{},  //航班总数据里面包括flights,info,options,total
+            flightsData:{},  //航班总数据里面包括flights,info,options,total
 
+
+            //从flights总列表中切割出来的新数组
+            dataList:[],
             //当前页数
             pageIndex:1,
             //当前的条数
@@ -65,11 +68,17 @@ export default {
     methods: {
         // 分页条数切换时候触发, val是当前的条数
         handleSizeChange(val){
-            console.log(val)
+            
         },
         // 页数切换时候触发, val是当前的页数
         handleCurrentChange(val){
-            // console.log(val)
+            //修改当前的页数
+            this.pageIndex = val;
+            //修改机票列表
+            this.dataList = this.flightsData.flights.slice(
+                (this.pageIndex - 1) * this.pageSize,
+                this.pageIndex * this.pageSize
+            )
         }
     },
     mounted(){
@@ -79,8 +88,10 @@ export default {
             // params是axios的 get的参数
             params:this.$route.query
         }).then(res=>{
-            this.fligthsData = res.data;
-            console.log(this.fligthsData)
+            this.flightsData = res.data;
+
+            // 第一页的数据
+            this.dataList = this.flightsData.flights.slice(0, this.pageSize)
         })
     }
 }
