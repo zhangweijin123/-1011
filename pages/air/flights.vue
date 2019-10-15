@@ -21,6 +21,16 @@
                     :item="item"
                     />
                 
+                <!-- 分页部分 -->
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="pageIndex"
+                    :page-sizes="[5, 10, 15, 20]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="flightsData.total">    
+                </el-pagination>
             </div>
 
             <!-- 侧边栏 -->
@@ -41,11 +51,26 @@ export default {
     data(){
         return {
             fligthsData:{},  //航班总数据里面包括flights,info,options,total
+
+            //当前页数
+            pageIndex:1,
+            //当前的条数
+            pageSize:5
         }
     },
     components:{
         FlightsListHead,
         FlightsItem
+    },
+    methods: {
+        // 分页条数切换时候触发, val是当前的条数
+        handleSizeChange(val){
+            console.log(val)
+        },
+        // 页数切换时候触发, val是当前的页数
+        handleCurrentChange(val){
+            // console.log(val)
+        }
     },
     mounted(){
         //请求机票列表的数据
