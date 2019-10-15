@@ -4,7 +4,8 @@
             <!-- 显示的机票信息 -->
             <el-row type="flex" align="middle" class="flight-info">
                 <el-col :span="6">
-                    <span>{{item.airline_name}} </span> MU5316
+                    <span>{{item.airline_name}} </span> 
+                    {{item.flight_no}}
                 </el-col>
                 <el-col :span="12">
                     <el-row type="flex" justify="space-between" class="flight-info-center">
@@ -22,7 +23,7 @@
                     </el-row>
                 </el-col>
                 <el-col :span="6" class="flight-info-right">
-                    ￥<span class="sell-price">810</span>起
+                    ￥<span class="sell-price">{{item.base_price/2}}</span>起
                 </el-col>
             </el-row>
         </div>
@@ -31,12 +32,12 @@
             <el-row type="flex"  justify="space-between" align="middle">
                 <el-col :span="4">低价推荐</el-col>
                 <el-col :span="20">
-                    <el-row type="flex" justify="space-between" align="middle" class="flight-sell">
+                    <el-row type="flex" justify="space-between" align="middle" class="flight-sell" v-for="(seat,index) in item.seat_infos" :key="index">
                         <el-col :span="16" class="flight-sell-left">
-                            <span>经济舱</span> | 上海一诺千金航空服务有限公司
+                            <span>{{seat.name}}</span> | {{seat.supplierName}}
                         </el-col>
                         <el-col :span="5" class="price">
-                            ￥1345
+                            ￥{{seat.org_settle_price}}
                         </el-col>
                         <el-col :span="3" class="choose-button">
                             <el-button 
@@ -44,7 +45,7 @@
                             size="mini">
                             选定
                             </el-button>
-                            <p>剩余：83</p>
+                            <p>剩余：{{seat.discount}}</p>
                         </el-col>
                     </el-row>
                 </el-col>
