@@ -143,7 +143,6 @@ export default {
 
         // 目标城市下拉选择时触发把数据储存
         handleDestSelect(item) {
-            console.log(item)
             this.form.destCity = item.value
             this.form.destCode = item.sort
         },

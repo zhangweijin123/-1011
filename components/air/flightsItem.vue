@@ -4,20 +4,20 @@
             <!-- 显示的机票信息 -->
             <el-row type="flex" align="middle" class="flight-info">
                 <el-col :span="6">
-                    <span>东航 </span> MU5316
+                    <span>{{item.airline_name}} </span> MU5316
                 </el-col>
                 <el-col :span="12">
                     <el-row type="flex" justify="space-between" class="flight-info-center">
                         <el-col :span="8" class="flight-airport">
-                            <strong>20:30</strong>
-                            <span>白云机场T1</span>
+                            <strong>{{item.dep_time}}</strong>
+                            <span>{{item.org_airport_name}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-time">
                             <span>2时20分</span>
                         </el-col>
                         <el-col :span="8" class="flight-airport">
-                            <strong>22:50</strong>
-                            <span>虹桥机场T2</span>
+                            <strong>{{item.arr_time}}</strong>
+                            <span>{{item.dst_airport_name}}</span>
                         </el-col>
                     </el-row>
                 </el-col>
@@ -58,15 +58,17 @@ export default {
 
     props: {
         // 数据
-        data: {
-            type: Object,
-            // 默认是空数组
-            default: {}
-        }
+         // item是声明组件可以接受item属性
+            item:{
+                //声明item类型
+                type: Object,
+                // 默认是空数组
+                default: {}
+            }
+        
     },
     mounted(){
-        //请求机票接口的数据
-        
+
     }
 }
 </script>
