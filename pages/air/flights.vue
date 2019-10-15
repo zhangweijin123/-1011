@@ -50,15 +50,27 @@ import FlightsItem from "@/components/air/flightsItem.vue"
 export default {
     data(){
         return {
-            flightsData:{},  //航班总数据里面包括flights,info,options,total
+            flightsData:{
+                flights:[],
+            },  //航班总数据里面包括flights,info,options,total
 
 
-            //从flights总列表中切割出来的新数组
-            dataList:[],
+           
             //当前页数
             pageIndex:1,
             //当前的条数
             pageSize:5
+        }
+    },
+
+    computed:{
+        dataList(){
+        //从flights中切割出新的数组
+        const arr = this.flightsData.flights.slice(
+                (this.pageIndex - 1) * this.pageSize,
+                this.pageIndex * this.pageSize
+            )
+            return  arr
         }
     },
     components:{
@@ -70,18 +82,12 @@ export default {
         handleSizeChange(val){
              // 切换条数
             this.pageSize = val;
-            // 重新回到第一页
-            this.dataList = this.flightsData.flights.slice(0, this.pageSize)
+            
         },
         // 页数切换时候触发, val是当前的页数
         handleCurrentChange(val){
             //修改当前的页数
             this.pageIndex = val;
-            //修改机票列表
-            this.dataList = this.flightsData.flights.slice(
-                (this.pageIndex - 1) * this.pageSize,
-                this.pageIndex * this.pageSize
-            )
         }
     },
     mounted(){
