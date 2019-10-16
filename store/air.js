@@ -9,5 +9,8 @@ export const mutations = {
     setHistory(state, data){
         //把得到数据在数组前面添加
         state.history.unshift(data);
+        if(state.history.length>5){
+            state.history.splice(3)
+        }
     },
 };
