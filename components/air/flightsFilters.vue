@@ -103,7 +103,19 @@ export default {
 
         // 选择出发时间时候触发
         handleFlightTimes(value){
-            
+            //数组中第一项是开始时间 第二项是终止时间
+            const arr1 = value.split(",")
+
+            const arr2 = this.data.flights.filter(v=>{
+                //获取出发时间的小时数值
+                const start = +v.dep_time.split(":")[0]
+
+                //比较航班的时间是否在时间段内
+                return start>=+arr1[0] && start<+arr1[1]
+            })
+
+            //修改数据列表的数据
+            this.$emit("setDataList",arr2)
         },
 
          // 选择航空公司时候触发
