@@ -200,12 +200,13 @@ export default {
             this.$router.push({
                 path:"air/flights",
                 query:this.form
-            })
+            });
+
+            //把搜索到的值保存到store
+            this.$store.commit("air/setHistory",this.form)
         }
     },
-    mounted() {
-       
-    }
+    
 }
 </script>
 
