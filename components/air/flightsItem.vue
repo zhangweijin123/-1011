@@ -40,11 +40,14 @@
                             ￥{{seat.org_settle_price}}
                         </el-col>
                         <el-col :span="3" class="choose-button">
+                            <!-- 点击选定的时候要跳转到订单详情页面使用nuxt-link跳转 -->
+                            <nuxt-link :to="`/air/order?id=${item.id}&seat_xid=${seat.seat_xid}`">
                             <el-button 
                             type="warning" 
                             size="mini">
                             选定
                             </el-button>
+                            </nuxt-link>
                             <p>剩余：{{seat.discount}}</p>
                         </el-col>
                     </el-row>
