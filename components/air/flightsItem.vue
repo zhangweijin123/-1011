@@ -96,9 +96,6 @@ export default {
             return `${hours}小时${min}分钟`;
         }
     },
-    mounted(){
-        
-    }
 }
 </script>
 

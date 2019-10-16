@@ -5,9 +5,9 @@
             <!-- 顶部过滤列表 -->
             <div class="flights-content">
                 <!-- 过滤条件 -->
-                <div>
-                    
-                </div>
+                <!-- setDataList用于修改过后的数组列表 是子组件通过事件传给父组件 -->
+                <!-- data是不会被数据修改的列表 -->
+                <FlightsFilters :data="cacheFlightsData" @setDataList="setDataList"/>
                 
                 <!-- 航班头部布局 -->
                 <FlightsListHead/>
@@ -52,15 +52,22 @@
 import moment from "moment";
 import FlightsListHead from "@/components/air/flightsListHead.vue"
 import FlightsItem from "@/components/air/flightsItem.vue"
+import FlightsFilters from "@/components/air/flightsFilters.vue"
 
 export default {
     data(){
         return {
             flightsData:{
                 flights:[],
+                info:{},
+                options:{}
             },  //航班总数据里面包括flights,info,options,total
-
-
+            //多缓存一份数据  只修改一次
+            cacheFlightsData:{
+                flights:[],
+                info:{},
+                options:{}
+            },
            
             //当前页数
             pageIndex:1,
@@ -84,7 +91,8 @@ export default {
     },
     components:{
         FlightsListHead,
-        FlightsItem
+        FlightsItem,
+        FlightsFilters
     },
     methods: {
         // 分页条数切换时候触发, val是当前的条数
@@ -107,6 +115,10 @@ export default {
             params:this.$route.query
         }).then(res=>{
             this.flightsData = res.data;
+
+            //缓存一份新的数据 这个列表不会被修改
+            //而flightsData会被修改
+            this.cacheFlightsData = {...res.data};
         })
     }
 }
