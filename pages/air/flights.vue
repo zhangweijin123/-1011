@@ -118,10 +118,11 @@ export default {
         handleCurrentChange(val){
             //修改当前的页数
             this.pageIndex = val;
-        }
-    },
-    mounted(){
-        //请求机票列表的数据
+        },
+
+        //封装请求机票列表的数据的函数
+        getList(){
+            //请求机票列表的数据
         this.$axios({
             url:"/airs",
             // params是axios的 get的参数
@@ -138,7 +139,18 @@ export default {
 
             // 分页总数
             this.total = this.flightsData.total;
-        })
+            })
+        }
+    },
+    watch:{
+        //监听路由变化
+        $route(){
+            //这个地方是给历史查询记录那个地方的选择重新渲染数据的操作 通过控制路由地址栏操作实现的
+            this.getList()
+        }
+    },
+    mounted(){
+        this.getList()
     }
 }
 </script>
