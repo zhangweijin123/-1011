@@ -3,7 +3,7 @@
         <el-row type="flex" class="filters-top" justify="space-between" align="middle">
             <el-col :span="8">
                 单程： 
-                {{data.info.dapartCity}} - {{data.info.destCity}}
+                {{data.info.departCity}} - {{data.info.destCity}}
                 / 
                 {{data.info.departDate}}
             </el-col>
@@ -92,7 +92,13 @@ export default {
     methods: {
         // 选择机场时候触发
         handleAirport(value){
-            
+            //根据value过滤列表 只保留符合条件的机票列表
+            const arr = this.data.flights.filter(v=>{
+                return v.org_airport_name === value
+            })
+
+            //修改列表数据
+            this.$emit("setDataList",arr)
         },
 
         // 选择出发时间时候触发
@@ -102,7 +108,12 @@ export default {
 
          // 选择航空公司时候触发
         handleCompany(value){
-            
+             // 根据value过滤列表，只保留当前符合条件的机票列表
+            const arr = this.data.flights.filter(v => {
+                return v.airline_name === value;
+            })
+            // 修改列表数据的
+            this.$emit("setDataList", arr);
         },
 
          // 选择机型时候触发
