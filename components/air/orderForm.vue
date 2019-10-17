@@ -38,9 +38,9 @@
         <div class="air-column">
             <h2>保险</h2>
             <div>
-                <div class="insurance-item">
+                <div class="insurance-item" v-for="(item,index) in detail.insurances" :key="index">
                     <el-checkbox 
-                    label="航空意外险：￥30/份×1  最高赔付260万" 
+                    :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}万`" 
                     border>
                     </el-checkbox> 
                 </div>
@@ -77,11 +77,15 @@
 export default {
     data(){
         return{
+            //机票详情
+            detail:{},
             //乘机人是一个数据列表 初始化的时候需要添加一位乘机人
             users:[{
                 username:'',
                 id:'',
-            }]
+            }],
+            //保险id的集合
+            insurances:[]
         }
     },
     methods: {
@@ -107,8 +111,20 @@ export default {
 
         // 提交订单
         handleSubmit(){
-            
+            // console.log(this.users)
         }
+    },
+    mounted(){
+        const {id,seat_xid} = this.$route.query
+        //请求机票详情
+        this.$axios({
+            url:"/airs/" + id,
+            params:{
+                seat_xid
+            }
+        }).then(res=>{
+            this.detail = res.data;
+        })
     }
 }
 </script>
