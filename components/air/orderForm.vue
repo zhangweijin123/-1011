@@ -109,8 +109,14 @@ export default {
         },
         
         // 发送手机验证码
-        handleSendCaptcha(){
-            
+        async handleSendCaptcha(){
+            //先判断是否有手机号
+            if(!this.contactPhone){
+                this.$message.error("手机号码不能为空");
+                return
+            }
+            const res = await this.$store.dispatch("user/sendCaptcha", this.contactPhone)
+             this.$message.success(`当前的验证码：` + res.data.code)
         },
 
         // 提交订单
