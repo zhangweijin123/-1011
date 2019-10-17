@@ -49,7 +49,7 @@ export default {
 
           if (res.status === 200) {
             this.$message.success("登陆成功");
-            this.$router.push("/");
+            this.$router.back("/");
           }
         }
       });

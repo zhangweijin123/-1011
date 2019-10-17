@@ -131,7 +131,16 @@ export default {
                 seat_xid:this.$route.query.seat_xid,
                 air:this.$route.query.id
             }
-            console.log(data)
+            this.$axios({
+                url:"/airorders",
+                method:"POST",
+                headers:{
+                    Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
+                },
+                data
+            }).then(res=>{
+                console.log(res)
+            })
             
         }
     },
