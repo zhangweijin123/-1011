@@ -177,15 +177,7 @@ export default {
             path: "/air/pay"
           });
         })
-        // .catch(err => {
-        //   const { message } = err.response.data;
-        //   // 警告提示
-        //   this.$confirm(message, "提示", {
-        //     confirmButtonText: "确定",
-        //     showCancelButton: false,
-        //     type: "warning"
-        //   });
-        // });
+        
     }
   },
   mounted() {
