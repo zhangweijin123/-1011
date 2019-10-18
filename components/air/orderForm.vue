@@ -166,17 +166,22 @@ export default {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
         },
         data
-      })
-        .then(res => {
+      }).then(res => {
+          const {data} = res.data
           this.$message({
-        message: "正在生成订单！请稍等",
-        type: "success"
-      });
+          message: "正在生成订单！请稍等",
+          type: "success"
+        });
+
           // 跳转到付款页
           this.$router.push({
-            path: "/air/pay"
+            path: "/air/pay",
+            query:{
+              id:data.id
+            }
           });
         })
+        
         
     }
   },
