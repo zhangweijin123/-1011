@@ -15,7 +15,9 @@ export default(context) => {
         if(statusCode===400){
             Message.error(message)
         }
-        if(statusCode===403){
+        // if(statusCode === 403 || statusCode === 401){
+            // 和上面注释的功能一样只不过可以把报错的数字代码访日数组里面 优化代码
+            if( [401, 403].indexOf(statusCode) > -1 ){
             // 路由重定向的方法
             context.redirect("/user/login");
         }
