@@ -58,6 +58,8 @@
 </template>
 
 <script>
+// 导入计算的方法
+import {computeTime} from "@/utils/utils"
 export default {
     data(){
         return{
@@ -79,24 +81,7 @@ export default {
     computed:{
         //计算属性 监听组件内容引用的实例的属性的变化
         rankTime(){
-            //首先分割数组 取出3两个数值
-            const depTime = this.item.dep_time.split(":") //22,30
-            const arrTime = this.item.arr_time.split(":") //20:00
-            // 第二天 如果出发事件大于到达时间 自动加上24小时处理
-            if(arrTime[0] < depTime[0]){
-                arrTime[0] += 24;
-            }
-            //然后用第一个数值乘以60分钟再加上第二个数值获取总分钟数
-            const start = depTime[0] * 60 + (+depTime[1])
-            const end = arrTime[0] * 60 + (+arrTime[1])
-            //然后再用两个总分钟数相减算出相隔的分钟数
-            const dis = end - start
-            //再用得到的相隔分钟数除以60 在向下取整得出整数的小时数
-            const hours = Math.floor(dis / 60);
-            //在用取余的方法算出剩下的分钟数
-            const min = dis % 60;
-            //最后return出最终相隔的时间结果
-            return `${hours}小时${min}分钟`;
+            return computeTime(this.item.arr_time, this.item.dep_time);
         }
     },
 }

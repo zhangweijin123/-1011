@@ -83,6 +83,26 @@ export default {
       captcha: "" //验证码
     };
   },
+  computed:{
+      //计算总价格
+      allPrice(){
+          let price = 0;
+          let len = this.users.length;
+
+          price += this.data.seat_infos.org_settle_price * len;
+
+          this.insurances.forEach(v=>{
+              price += this.data.insurances[v-1].price * len;
+          });
+
+          price += this.data.airport_tax_audlet * len;
+
+          //触发设置总金额事件
+          this.$emit("setAllPrice",price)
+
+          return price;
+      }
+  },
   methods: {
     // 添加乘机人
     handleAddUsers() {
@@ -167,6 +187,9 @@ export default {
       }
     }).then(res => {
       this.detail = res.data;
+
+      //把detail返回给父组件
+      this.$emit("getDetail",this.detail)
     });
   }
 };
