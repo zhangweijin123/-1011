@@ -36,7 +36,6 @@ export default {
         //获取机票详情的方法
         getDetail(detail){
             this.detail = detail;
-            console.log(detail)
         },
 
         //获取总价格

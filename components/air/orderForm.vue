@@ -31,7 +31,9 @@
       <h2>保险</h2>
       <div>
         <div class="insurance-item" v-for="(item,index) in detail.insurances" :key="index">
-          <el-checkbox :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}万`" border></el-checkbox>
+          <el-checkbox :label="item.id" v-model="insurances" border>
+          {{`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}万`}}
+          </el-checkbox>
         </div>
       </div>
     </div>
@@ -70,6 +72,7 @@ export default {
     return {
       //机票详情
       detail: {
+        insurances:[],
         seat_infos:{}
       },
       //乘机人是一个数据列表 初始化的时候需要添加一位乘机人
@@ -91,16 +94,17 @@ export default {
       //计算总价格
       allPrice(){
          // 如果接口还没请求回来，直接返回
-            if(!this.detail.seat_infos) return;
+          if(!this.detail.seat_infos) return;
+          //总价格初始值
           let price = 0;
           let len = this.users.length;
-
+          //加上单价
           price += this.detail.seat_infos.org_settle_price * len;
-
+          //保险费
           this.insurances.forEach(v=>{
-              price += this.detail.insurances[v-1].price * len;
+              price += this.detail.insurances[v-1].price * len
           });
-
+          //燃油费
           price += this.detail.airport_tax_audlet * len;
 
           //触发设置总金额事件
@@ -154,10 +158,7 @@ export default {
       const {
         user: { userInfo }
       } = this.$store.state;
-      this.$message({
-        message: "正在生成订单！请稍等",
-        type: "success"
-      });
+      
       this.$axios({
         url: "/airorders",
         method: "POST",
@@ -167,20 +168,24 @@ export default {
         data
       })
         .then(res => {
+          this.$message({
+        message: "正在生成订单！请稍等",
+        type: "success"
+      });
           // 跳转到付款页
           this.$router.push({
             path: "/air/pay"
           });
         })
-        .catch(err => {
-          const { message } = err.response.data;
-          // 警告提示
-          this.$confirm(message, "提示", {
-            confirmButtonText: "确定",
-            showCancelButton: false,
-            type: "warning"
-          });
-        });
+        // .catch(err => {
+        //   const { message } = err.response.data;
+        //   // 警告提示
+        //   this.$confirm(message, "提示", {
+        //     confirmButtonText: "确定",
+        //     showCancelButton: false,
+        //     type: "warning"
+        //   });
+        // });
     }
   },
   mounted() {
